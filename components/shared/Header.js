@@ -1,42 +1,61 @@
 import React from "react";
 import Link from "next/link";
-import "../../styles/main.scss"
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem
+} from "reactstrap";
 
-class Header extends React.Component {
+const BsNavLink = ({ route, title }) => (
+  <Link href={route}>
+    <a className="nav-link port-navbar-link">{title}</a>
+  </Link>
+);
+
+export default class Header extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
   render() {
-    const { title, children } = this.props;
     return (
-      <React.Fragment>
-        <p>{title}</p>
-        {children}
-        <p className="customClass">I am styled P element.</p>
-        <p className="customClassFromFile">I am styled P element.</p>
-        <Link href="/">
-          <a style={{ fontSize: "20px" }}>Home</a>
-        </Link>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-        <Link href="/portfolios">
-          <a>Protfolio</a>
-        </Link>
-        <Link href="/blogs">
-          <a>Blog</a>
-        </Link>
-        <Link href="/cv">
-          <a>Cv</a>
-        </Link>
-        <style jsx>{`
-          a {
-            font-size: 20px;
-          }
-          .customClass {
-            color: red;
-          }
-        `}</style>
-      </React.Fragment>
+      <div>
+        <Navbar className="port-navbar port-default absolute" color="tranparent" dark expand="md">
+          <NavbarBrand className="port-navbar-brand" href="/">Parth Satasiya</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem className="port-navbar-item">
+                <BsNavLink route="/" title="Home" />
+              </NavItem>
+              <NavItem>
+                <BsNavLink route="/about" title="About" />
+              </NavItem>
+              <NavItem>
+                <BsNavLink route="/portfolios" title="Portfolio" />
+              </NavItem>
+              <NavItem>
+                <BsNavLink route="/blogs" title="Blog" />
+              </NavItem>
+              <NavItem>
+                <BsNavLink route="/cv" title="Cv" />
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
     );
   }
 }
-
-export default Header;
