@@ -8,11 +8,24 @@ import {
   Nav,
   NavItem
 } from "reactstrap";
+import auth0 from "../../services/auth0";
 
 const BsNavLink = ({ route, title }) => (
   <Link href={route}>
     <a className="nav-link port-navbar-link">{title}</a>
   </Link>
+);
+
+const Login = () => (
+  <span className="nav-link port-navbar-link clickable" onClick={auth0.login}>
+    Login
+  </span>
+);
+
+const Logout = () => (
+  <span className="nav-link port-navbar-link clickable" onClick={auth0.logout}>
+    Logout
+  </span>
 );
 
 export default class Header extends React.Component {
@@ -30,10 +43,18 @@ export default class Header extends React.Component {
     });
   }
   render() {
+    const { isAuthenticated } = this.props;
     return (
       <div>
-        <Navbar className="port-navbar port-default absolute" color="tranparent" dark expand="md">
-          <NavbarBrand className="port-navbar-brand" href="/">Parth Satasiya</NavbarBrand>
+        <Navbar
+          className="port-navbar port-default absolute"
+          color="tranparent"
+          dark
+          expand="md"
+        >
+          <NavbarBrand className="port-navbar-brand" href="/">
+            Parth Satasiya
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -52,6 +73,16 @@ export default class Header extends React.Component {
               <NavItem>
                 <BsNavLink route="/cv" title="Cv" />
               </NavItem>
+              {!isAuthenticated && (
+                <NavItem>
+                  <Login />
+                </NavItem>
+              )}
+              {isAuthenticated && (
+                <NavItem>
+                  <Logout />
+                </NavItem>
+              )}
             </Nav>
           </Collapse>
         </Navbar>
